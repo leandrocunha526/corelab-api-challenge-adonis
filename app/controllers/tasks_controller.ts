@@ -23,8 +23,7 @@ export default class TasksController {
       const tasks = await query.orderBy('createdAt', 'desc')
       return tasks
     } catch (error) {
-      console.error('Erro ao listar tarefas:', error)
-      return response.status(500).json({ message: 'Erro ao buscar tarefas' })
+      return response.status(500).json({ message: 'Erro ao buscar tarefas', error })
     }
   }
 
@@ -41,10 +40,9 @@ export default class TasksController {
 
       return response.status(201).json(task)
     } catch (error) {
-      console.error('Erro ao criar tarefa:', error)
-      return response.status(400).json({
+      return response.unprocessableEntity({
         message: 'Erro de validação ao criar tarefa',
-        errors: error.messages,
+        error
       })
     }
   }
@@ -60,8 +58,7 @@ export default class TasksController {
 
       return task
     } catch (error) {
-      console.error('Tarefa não encontrada:', error)
-      return response.status(404).json({ message: 'Tarefa não encontrada' })
+      return response.status(404).json({ message: 'Tarefa não encontrada', error })
     }
   }
 
@@ -81,10 +78,9 @@ export default class TasksController {
 
       return task
     } catch (error) {
-      console.error('Erro ao atualizar tarefa:', error)
-      return response.status(400).json({
+      return response.unprocessableEntity({
         message: 'Erro de validação ao atualizar tarefa',
-        errors: error.messages,
+        error,
       })
     }
   }
@@ -101,8 +97,7 @@ export default class TasksController {
       await task.delete()
       return response.status(204)
     } catch (error) {
-      console.error('Erro ao deletar tarefa:', error)
-      return response.status(500).json({ message: 'Erro ao deletar tarefa' })
+      return response.status(500).json({ message: 'Erro ao deletar tarefa', error })
     }
   }
 
@@ -120,8 +115,7 @@ export default class TasksController {
 
       return task
     } catch (error) {
-      console.error('Erro ao alternar favorito:', error)
-      return response.status(500).json({ message: 'Erro ao atualizar favorito' })
+      return response.status(500).json({ message: 'Erro ao atualizar favorito', error })
     }
   }
 
@@ -145,8 +139,7 @@ export default class TasksController {
 
       return task
     } catch (error) {
-      console.error('Erro ao atualizar cor:', error)
-      return response.status(500).json({ message: 'Erro ao atualizar cor' })
+      return response.status(500).json({ message: 'Erro ao atualizar cor', error })
     }
   }
 }

@@ -38,8 +38,10 @@ export default class AuthController {
       })
 
     } catch (error) {
-      console.error('Erro no login:', error)
-      return response.internalServerError({ message: 'Erro interno no servidor' })
+      return response.unprocessableEntity({
+        message: 'Erro de validação ao fazer login',
+        error
+      })
     }
   }
 }

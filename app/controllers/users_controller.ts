@@ -33,7 +33,7 @@ export default class UsersController {
 
       return response.created(user)
     } catch (error) {
-      return response.badRequest({ message: 'Erro ao criar usuário', error })
+      return response.unprocessableEntity({ message: 'Erro ao criar usuário', error })
     }
   }
 
@@ -65,7 +65,7 @@ export default class UsersController {
 
       return user
     } catch (error) {
-      return response.badRequest({ message: 'Erro ao atualizar usuário', error })
+      return response.unprocessableEntity({ message: 'Erro ao atualizar usuário', error })
     }
   }
 
@@ -106,7 +106,7 @@ export default class UsersController {
         createdAt: user.createdAt,
       }
     } catch (error) {
-      return response.unauthorized({ message: 'Não autenticado' })
+      return response.unauthorized({ message: 'Não autenticado', error })
     }
   }
 }
