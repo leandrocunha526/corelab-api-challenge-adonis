@@ -5,31 +5,41 @@ import hash from '@adonisjs/core/services/hash'
 
 export default class AuthController {
   public async login({ request, response }: HttpContext) {
-    const data = request.only(['email', 'password'])
+    try {
+      const data = request.only(['email', 'password'])
 
-    // Validando os dados do login usando o validador
-    const payload = await authValidator.validate(data)
+      const payload = await authValidator.validate(data)
 
-    // Procurando o usuário pelo email
-    const user = await User.findBy('email', payload.email)
-    if (!user) {
-      return response.unauthorized({ message: 'Invalid credentials' })
+      const user = await User.findBy('email', payload.email)
+      if (!user) {
+        return response.unauthorized({ message: 'Credenciais inválidas' })
+      }
+
+      const isPasswordValid = await hash.verify(user.password, payload.password)
+      if (!isPasswordValid) {
+        return response.unauthorized({ message: 'Credenciais inválidas' })
+      }
+
+      const token = await User.accessTokens.create(user)
+      if (!token.value) {
+        return response.internalServerError({ message: 'Erro ao gerar token' })
+      }
+
+      return response.status(201).json({
+        user: {
+          id: user.id,
+          email: user.email,
+          fullName: user.fullName,
+        },
+        token: {
+          type: 'bearer',
+          value: token.value.release(),
+        },
+      })
+
+    } catch (error) {
+      console.error('Erro no login:', error)
+      return response.internalServerError({ message: 'Erro interno no servidor' })
     }
-
-    // Verificando a senha
-    if (!(await hash.verify(user.password, payload.password))) {
-      return response.unauthorized({ message: 'Invalid credentials' })
-    }
-
-    // Gerando o token de acesso
-    const token = await User.accessTokens.create(user)
-
-    return response.status(201).json({
-      user,
-      token: {
-        type: 'bearer',
-        value: token.value!.release(),
-      },
-    })
   }
 }
