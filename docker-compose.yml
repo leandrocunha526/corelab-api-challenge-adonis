@@ -9,6 +9,8 @@ services:
       - /app/node_modules
     depends_on:
       - db
+    environment:
+      NODE_ENV: development # Set use of .env file
     command: >
       sh -c "
         node ace migration:run &&
