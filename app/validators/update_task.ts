@@ -4,7 +4,7 @@ export const updateTaskValidator = vine.compile(
   vine.object({
     title: vine.string().trim().minLength(3).maxLength(100).optional(),
     text: vine.string().minLength(5).maxLength(1000).optional(),
-    color: vine.string().trim().minLength(4).maxLength(7).optional(),
+    color: vine.string().trim().regex(/^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})$/).optional(),
     isFavorite: vine.boolean().optional(),
   })
 )

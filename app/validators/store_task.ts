@@ -4,7 +4,7 @@ export const storeTaskValidator = vine.compile(
   vine.object({
     title: vine.string().trim().minLength(3).maxLength(100),
     text: vine.string().minLength(5).maxLength(1000),
-    color: vine.string().trim().minLength(4).maxLength(7).optional(), // The hexadecimal color code is at least 3 characters long as #f00 and at most 6 characters long as #ffffff
+    color: vine.string().trim().regex(/^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})$/).optional(), // The hexadecimal color code is at least 3 characters long as #f00 and at most 6 characters long as #ffffff
     isFavorite: vine.boolean(),
   })
 )
