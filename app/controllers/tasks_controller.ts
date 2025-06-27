@@ -16,7 +16,10 @@ export default class TasksController {
         query.whereILike('title', `%${title}%`)
       }
 
-      if (color) {
+      // Lógica para buscar tarefas com `color = null`
+      if (color === 'null' || color === '') {
+        query.whereNull('color')
+      } else if (color) {
         query.where('color', color)
       }
 
