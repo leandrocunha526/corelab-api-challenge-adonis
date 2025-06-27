@@ -130,16 +130,26 @@ export default class TasksController {
 
       const { color } = request.only(['color'])
 
-      if (!color) {
-        return response.status(400).json({ message: 'A cor é obrigatória' })
+      const hexRegex = /^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})$/
+
+      if (!color || !hexRegex.test(color)) {
+        return response.status(422).json({
+          message: 'A cor deve estar em formato hexadecimal válido, como #FFF ou #112233',
+        })
       }
 
       task.color = color
       await task.save()
 
-      return task
+      return response.ok({
+        id: task.id,
+        color: task.color,
+      })
     } catch (error) {
-      return response.status(500).json({ message: 'Erro ao atualizar cor', error })
+      return response.status(500).json({
+        message: 'Erro ao atualizar cor',
+        error
+      })
     }
   }
 }
