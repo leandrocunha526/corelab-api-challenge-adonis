@@ -15,21 +15,22 @@ Este PR implementa:
 
 ### 🔐 Autenticação
 
-- Middleware `auth` aplicado às rotas protegidas:
-  - `POST /api/tasks`
-  - `POST /api/users`
-- Geração de token JWT via endpoint de login `/login`
+- Middleware `auth` aplicado aos grupos de rotas protegidas:
+  - `/api/tasks`
+  - `/api/users`
+- Geração de token JWT via endpoint de login `/api/login`
+- Uso de prefixo `/api` (opcional)
 
 ---
 
 ### 👤 Funcionalidade de Usuários
 
-- Registro de usuário via `POST /register`, com os campos:
+- Registro de usuário via `POST /api/register`, com os campos:
   - `fullName` (nome completo)
   - `email`  (sendo validado para verificar se o formato do e-mail é válido)
   - `password` (acima de 6 caracteres e com regex validando se possui 1 letra maiúscula e 1 número para criação de senhas fortes)
 - Edição de usuário (incluindo alteração de senha)
-- Visualização do perfil (`/users/profile`), por ID e listagem geral
+- Visualização do perfil (`/api/users/profile`), por ID e listagem geral
 - **Validações de dados aplicadas:**
   - Email obrigatório e válido
   - Senha com regex exigindo **letra maiúscula e número**
@@ -50,7 +51,7 @@ Este PR implementa:
 - Rotas `PATCH` (que permite realizar requisições para alterar um campo apenas) adicionais para edição pontual de:
   - `isFavorite`
   - `color` (na requisição `PATCH` foi usado uma validação com regex para validar se é um código hexadecimal válido conforme é enviado pelo front-end)
-  - Configurada no CORS para aceitação de requisições `PATCH`
+  - Foi realizado a configuração no CORS para aceitação de requisições `PATCH` (caso isso não seja feito a requisição é bloqueada com erro de Cross-Origin Resource Sharing)
 - Validações adicionais:
   - Campos obrigatórios e opcionais
   - Limites de caracteres (`minLength`, `maxLength`)
@@ -66,7 +67,6 @@ Este PR implementa:
   - ❌ Campo `title` vazio (422)
   - ❌ Campo `color` inválido (422)
 - Banco de dados limpo entre os testes (`DELETE FROM tasks`, `DELETE FROM users`)
-- E-mails dinâmicos gerados por UUID para evitar conflito de duplicação
 
 ---
 
@@ -138,6 +138,12 @@ Execute os testes
 $env:NODE_ENV="development"; npm run dev
 ```
 
+Para gerar APP_KEY:
+
+```bash
+node ace generate:key
+```
+
 Em ambientes que o SO usa o Kernel Linux:
 
 ```bash
@@ -148,13 +154,27 @@ NODE_ENV=development npm run dev
 
 Eu criei os arquivos para Docker que foram testados e estão funcionando corretamente utilizando as variáveis de ambiente de `.env`. O uso é voltado para desenvolvimento da API.
 
+Use o comando:
+
+```bash
+docker compose -f docker-compose.yml up
+```
+
+Ou
+
+```bash
+docker compose up --build
+```
+
+O docker-compose.yml foi criado e está configurado para uso do Docker Compose V2.
+
 ### Pronto para Produção
 
 A aplicação está preparada para ser executada em ambientes de produção. Para deploy, recomenda-se:
 
 - Configurar variáveis de ambiente (DB, APP_KEY, etc.)
 - Utilizar uma plataforma como Heroku, Railway, Render ou VPS
-- O AdonisJS 6 é compatível com Node.js 22
+- O AdonisJS 6 é compatível com Node.js 20 e 22
 
 ### Documentações de referência
 
