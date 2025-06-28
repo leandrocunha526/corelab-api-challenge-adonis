@@ -61,12 +61,14 @@ NOTE: O front-end cadastra color como NULL (sendo o único campo nullable) no re
 
 ### 🧪 Testes Automatizados (Japa)
 
-- Criado arquivo `tests/functional/task.test.ts`
-- Casos de teste cobrindo:
+- Criados os arquivos em `tests/functional/*` para testes de `users` e `tasks` totalizando 8 testes criados
+- Casos de teste cobrindo (test cases):
   - ✅ Criação de tarefa com autenticação
   - ❌ Tentativa sem autenticação (401)
   - ❌ Campo `title` vazio (422)
   - ❌ Campo `color` inválido (422)
+  - ✅ Criação de usuários e autenticação
+  - ❌ Tentativa de criar usuário e autenticar sem campos obrigatórios e válidos perante a validação
 - Banco de dados limpo entre os testes (`DELETE FROM tasks`, `DELETE FROM users`)
 
 ---
