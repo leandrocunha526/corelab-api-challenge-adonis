@@ -45,9 +45,10 @@ Este PR implementa:
   - `title`: obrigatório
   - `text`: obrigatório
   - `isFavorite`: obrigatório (booleano (não serão aceitos outros formatos pelo banco de dados, não passaria pela validação e nem pelo ORM Lucid))
-  - `color`: hexadecimal opcional (`#RRGGBB`) (sendo acima de 4 caracteres e no máximo 7 conforme códigos hexadecimais usados para cores)
-- Relacionamento: cada tarefa pertence a um usuário (`user_id`)
-- CRUD completo utilizando `route.resource`
+  - `color`: hexadecimal opcional (`#RRGGBB`) (sendo acima de 4 caracteres e no máximo 7 conforme códigos hexadecimais usados para cores)  
+NOTE: O front-end cadastra color como NULL (sendo o único campo nullable) no registro do front-end e o usuário pode definir uma cor usando o seletor de cor do front-end atribuindo um hexadecimal através de requisições do tipo `PATCH` para a API
+- Relacionamento: cada tarefa pertence a um usuário e no entanto faz uso de chave estrangeira (`user_id`)
+- CRUD completo utilizando `route.resource` para o grupo de rotas de `tasks`
 - Rotas `PATCH` (que permite realizar requisições para alterar um campo apenas) adicionais para edição pontual de:
   - `isFavorite`
   - `color` (na requisição `PATCH` foi usado uma validação com regex para validar se é um código hexadecimal válido conforme é enviado pelo front-end)
