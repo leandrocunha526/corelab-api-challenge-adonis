@@ -3,7 +3,7 @@ import vine, { SimpleMessagesProvider } from "@vinejs/vine";
 // Validator para atualização de usuário
 export const updateUserValidator = vine.compile(
   vine.object({
-    email: vine.string().trim().minLength(6).email().optional(),
+    email: vine.string().trim().email().optional(),
     fullName: vine.string().trim().maxLength(255).optional(),
     password: vine
       .string()

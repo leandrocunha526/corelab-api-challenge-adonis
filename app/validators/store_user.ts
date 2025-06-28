@@ -3,7 +3,7 @@ import vine, { SimpleMessagesProvider } from '@vinejs/vine'
 // Validador para registro de usuário
 export const storeUserValidator = vine.compile(
   vine.object({
-    email: vine.string().trim().minLength(5).maxLength(254).email(),
+    email: vine.string().trim().email(),
     fullName: vine.string().trim().maxLength(255),
     password: vine
       .string()
