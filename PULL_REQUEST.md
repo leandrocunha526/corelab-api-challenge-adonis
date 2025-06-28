@@ -26,9 +26,9 @@ Este PR implementa:
 ### 👤 Funcionalidade de Usuários
 
 - Registro de usuário via `POST /api/register`, com os campos:
-  - `fullName` (nome completo)
-  - `email`  (sendo validado para verificar se o formato do e-mail é válido)
-  - `password` (acima de 6 caracteres e com regex validando se possui 1 letra maiúscula e 1 número para criação de senhas fortes)
+  - `fullName` (nome completo obrigatório)
+  - `email`  (sendo validado para verificar se o formato do e-mail é válido e obrigatório)
+  - `password` (acima de 6 caracteres e com regex validando se possui 1 letra maiúscula e 1 número para criação de senhas fortes além de obrigatório)
 - Edição de usuário (incluindo alteração de senha)
 - Visualização do perfil (`/api/users/profile`), por ID e listagem geral
 - **Validações de dados aplicadas:**
