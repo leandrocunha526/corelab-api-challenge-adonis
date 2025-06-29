@@ -8,7 +8,7 @@ export default class extends BaseSchema {
       table.uuid('id').primary()
       table.string('title').notNullable()
       table.text('text').notNullable()
-      table.string('color').nullable()
+      table.string('color', 7).nullable()
       table.boolean('is_favorite').notNullable().defaultTo(false)
 
       table

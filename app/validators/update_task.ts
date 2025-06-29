@@ -2,8 +2,8 @@ import vine, { SimpleMessagesProvider } from '@vinejs/vine'
 
 export const updateTaskValidator = vine.compile(
   vine.object({
-    title: vine.string().trim().minLength(3).maxLength(100).optional(),
-    text: vine.string().minLength(5).maxLength(1000).optional(),
+    title: vine.string().trim().minLength(3).maxLength(255).optional(),
+    text: vine.string().minLength(5).maxLength(256).optional(),
     color: vine.string().trim().regex(/^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})$/).optional(),
     isFavorite: vine.boolean().optional(),
   })
