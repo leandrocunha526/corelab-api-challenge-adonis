@@ -2,8 +2,8 @@ import vine, { SimpleMessagesProvider } from '@vinejs/vine'
 
 export const authValidator = vine.compile(
   vine.object({
-    email: vine.string().trim().email(),
-    password: vine.string().trim().minLength(6),
+    email: vine.string().trim().email().maxLength(255),
+    password: vine.string().trim().minLength(6).maxLength(255),
   })
 )
 
